@@ -1,0 +1,39 @@
+
+
+POST  https://us-central1-read-write-share-36d59.cloudfunctions.net/api/signup
+Content-Type: application/json
+
+
+{
+    "email": "md.mizan1@gmail.com",
+    "password":"123456",
+    "confirmPassword": "123456",
+    "fullName": "Mizanur Rahaman",
+    "gender": "male"
+}
+
+
+
+###
+post https://us-central1-read-write-share-36d59.cloudfunctions.net/api/user
+Content-Type: application/json
+Authorization: Auth eyJhbGciOiJSUzI1NiIsImtpZCI6IjhjZjBjNjQyZDQwOWRlODJlY2M5MjI4ZTRiZDc5OTkzOTZiNTY3NDAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcmVhZC13cml0ZS1zaGFyZS0zNmQ1OSIsImF1ZCI6InJlYWQtd3JpdGUtc2hhcmUtMzZkNTkiLCJhdXRoX3RpbWUiOjE1ODM4NjE5ODIsInVzZXJfaWQiOiJRZ3VwbkxWbG1qUmo4a3QwQllCdWpMdWw5QzYzIiwic3ViIjoiUWd1cG5MVmxtalJqOGt0MEJZQnVqTHVsOUM2MyIsImlhdCI6MTU4Mzg2MTk4MiwiZXhwIjoxNTgzODY1NTgyLCJlbWFpbCI6Im1kLm1pemFuMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibWQubWl6YW4xQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.Nn2VHjwyDtfbA6QCSofQJr_WbtxfSf0o2KIFb8dmMk9GxqNB5i5_Nra7W3bArjGQ_8mrRuIazJDCtEvQyrhC0JNM994A7aCAtRIUI-B0dbHy4gxbjDFoE0_5omfVFS--L_4ms447ZmrDoCd6m0IosFem0yDHC4uayYfDAXKO5T1dsHyZYK1nPSriqtVEn1pdIln44q_rRyLn_sMcQJY7sRS0kawdiPFnEFleiU0ZPf5LECuOBWdE3RIeHmU_YIULxsvP9nLmOHerDMQ4mG-wbIy7Iv4IqHG7EslIVSsEuFzI3O6SBicF2fl6tjzfsTBeCkm0Va99JElo7SqTZaFvMQ
+
+
+{
+    "bio": "Hi I'm Miza",
+    "website": "www.github.com/mizan4392",
+    "location": "Kolabagan,Dhanmondi"
+}
+
+
+###
+post https://us-central1-read-write-share-36d59.cloudfunctions.net/api/login
+Content-Type: application/json
+
+
+
+{
+    "email": "md.mizan1@gmail.com",
+    "password":"123456"
+}

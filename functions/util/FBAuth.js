@@ -8,9 +8,11 @@ exports.FBAuth = (req, res, next) => {
   ) {
     idToken = req.headers.authorization.split("Auth ")[1];
   } else {
-    console.err("no Token found");
+    console.error("no Token found");
     return res.status(403).json({ error: "Unauthorized" });
   }
+
+  console.log("token---> ", idToken);
 
   admin
     .auth()
