@@ -27,9 +27,11 @@ exports.getAllPosts = (req, res) => {
 exports.newPost = (req, res) => {
   const newPost = {
     body: req.body.body,
+    tags: req.body.tags,
     userName: req.user.userName,
     userImage: req.user.imageUrl,
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
     likeCount: 0,
     commentCount: 0
   };
