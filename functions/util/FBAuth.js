@@ -31,6 +31,7 @@ exports.FBAuth = (req, res, next) => {
       req.user.full_name = data.docs[0].data().full_name;
       req.user.userId = data.docs[0].data().userId;
       req.user.imageUrl = data.docs[0].data().imageUrl;
+      req.user.userId = data.docs[0].data().userId;
       return next();
     })
     .catch(err => {
