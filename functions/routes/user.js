@@ -19,54 +19,61 @@ exports.signup = (req, res) => {
   const newUser = {
     email: req.body.email,
     password: req.body.password,
-    confirmPassword: req.body.confirmPassword,
     full_name: req.body.fullName,
     gender: req.body.gender
   };
-  //validation user data
-  // const { valid, errors } = validateSignupData(newUser);
-  // if (!valid) return res.status(400).json(errors);
 
   const noImg = "blank.png";
-  const noImg_f = "blank-f.png";
+
   //-------pushing data to database
   let token, userId;
-  db.doc(`/users/${newUser.email}`)
-    .get()
-    .then(doc => {
-      if (doc.exists) {
-        res.status(400).json({ email: "this email is already exists" });
-      } else {
-        return firebase
-          .auth()
-          .createUserWithEmailAndPassword(newUser.email, newUser.password);
-      }
-    })
-    .then(data => {
-      userId = data.user.uid;
-      return data.user.getIdToken();
-    })
-    .then(idtoken => {
-      //setting user data
-      token = idtoken;
-      const userCredintial = {
-        full_name: newUser.full_name,
-        email: newUser.email,
-        createdAt: new Date().toISOString(),
-        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
-        userId
-      };
-      return db.doc(`/users/${userId}`).set(userCredintial);
-    })
-    .then(() => {
-      return res.status(201).json({ token: token });
-    })
-    .catch(err => {
-      console.error(err);
-      return res
-        .status(400)
-        .json({ general: "Somthing went wrong , plese try again" });
-    });
+  if (
+    newUser.email !== undefined &&
+    newUser.password !== undefined &&
+    newUser.full_name !== undefined &&
+    newUser.gender !== undefined
+  ) {
+    db.doc(`/users/${newUser.email}`)
+      .get()
+      .then(doc => {
+        if (doc.exists) {
+          res.status(400).json({ email: "this email is already exists" });
+        } else {
+          return firebase
+            .auth()
+            .createUserWithEmailAndPassword(newUser.email, newUser.password);
+        }
+      })
+      .then(data => {
+        userId = data.user.uid;
+        return data.user.getIdToken();
+      })
+      .then(idtoken => {
+        //setting user data
+        token = idtoken;
+        const userCredintial = {
+          full_name: newUser.full_name,
+          email: newUser.email,
+          createdAt: new Date().toISOString(),
+          imageUrl: `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/${noImg}?alt=media`,
+          userId
+        };
+        return db.doc(`/users/${userId}`).set(userCredintial);
+      })
+      .then(() => {
+        return res.status(201).json({ token: token });
+      })
+      .catch(err => {
+        console.error(err);
+        return res
+          .status(400)
+          .json({ general: "Somthing went wrong , plese try again" });
+      });
+  } else {
+    return res
+      .status(400)
+      .json({ general: "Information messing, plese try again" });
+  }
 };
 
 //-------------------Login Route-----------------
@@ -95,21 +102,21 @@ exports.login = (req, res) => {
     });
 };
 
-exports.addUserDetails = (req, res) => {
-  let userDetails = reduceUserDetails(req.body);
+// exports.addUserDetails = (req, res) => {
+//   let userDetails = reduceUserDetails(req.body);
 
-  console.log(req.user);
+//   console.log(req.user);
 
-  db.doc(`/users/${req.user.uid}`)
-    .update(userDetails)
-    .then(() => {
-      return res.json({ message: "Details added successfully" });
-    })
-    .catch(err => {
-      console.error(err);
-      return res.status(500).json({ error: err.code });
-    });
-};
+//   db.doc(`/users/${req.user.uid}`)
+//     .update(userDetails)
+//     .then(() => {
+//       return res.json({ message: "Details added successfully" });
+//     })
+//     .catch(err => {
+//       console.error(err);
+//       return res.status(500).json({ error: err.code });
+//     });
+// };
 
 // //get own user Details
 // exports.getAuthenticatedUser = (req, res) => {

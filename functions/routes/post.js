@@ -27,6 +27,7 @@ exports.getAllPosts = (req, res) => {
 exports.newPost = (req, res) => {
   const newPost = {
     body: req.body.body,
+    tags: req.body.tags,
     userName: req.user.userName,
     tags: req.body.tags,
     user_id: req.user.userId,
