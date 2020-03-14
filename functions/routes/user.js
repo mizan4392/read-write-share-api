@@ -119,52 +119,55 @@ exports.login = (req, res) => {
 // };
 
 // //get own user Details
-// exports.getAuthenticatedUser = (req, res) => {
-//   let userData = {};
-//   db.doc(`/users/${req.user.userName}`)
-//     .get()
-//     .then(doc => {
-//       if (doc.exists) {
-//         userData.credentials = doc.data();
-//         return db
-//           .collection("likes")
-//           .where("userName", "==", req.user.userName)
-//           .get();
-//       }
-//     })
-//     .then(data => {
-//       userData.likes = [];
-//       data.forEach(doc => {
-//         userData.likes.push(doc.data());
-//       });
+exports.getAuthenticatedUser = (req, res) => {
+  let userData = {};
+    // db.doc(`/users/${req.user.userId}`)
+    
+    console.log("ueser id",req.user.userId)
+  db.collection("users").doc(req.user.userId)
+    .get()
+    .then(doc => {
+      if (doc.exists) {
+        userData.credentials = doc.data();
+        return db
+          .collection("likes")
+          .where("userId", "==", req.user.userId)
+          .get();
+      }
+    })
+    .then(data => {
+      userData.likes = [];
+      data.forEach(doc => {
+        userData.likes.push(doc.data());
+      });
 
-//       return db
-//         .collection("notifications")
-//         .where("recipient", "==", req.user.userName)
-//         .orderBy("createdAt", "desc")
-//         .limit(10)
-//         .get();
-//     })
-//     .then(data => {
-//       userData.notifications = [];
-//       data.forEach(doc => {
-//         userData.notifications.push({
-//           recipient: doc.data().recipient,
-//           sender: doc.data().sender,
-//           createdAt: doc.data().createdAt,
-//           postId: doc.data().postId,
-//           type: doc.data().type,
-//           read: doc.data().read,
-//           notificationId: doc.id
-//         });
-//       });
-//       return res.json(userData);
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       return res.status(500).json({ error: err.code });
-//     });
-// };
+      return db
+        .collection("notifications")
+        .where("recipient", "==", req.user.userId)
+        .orderBy("createdAt", "desc")
+        .limit(10)
+        .get();
+    })
+    .then(data => {
+      userData.notifications = [];
+      data.forEach(doc => {
+        userData.notifications.push({
+          recipient: doc.data().recipient,
+          sender: doc.data().sender,
+          createdAt: doc.data().createdAt,
+          postId: doc.data().postId,
+          type: doc.data().type,
+          read: doc.data().read,
+          notificationId: doc.id
+        });
+      });
+      return res.json(userData);
+    })
+    .catch(err => {
+      console.error(err);
+      return res.status(500).json({ error: err.code });
+    });
+};
 
 // exports.uplodImage = (req, res) => {
 //   const busboy = new BusBoy({ headers: req.headers });

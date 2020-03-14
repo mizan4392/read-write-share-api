@@ -11,8 +11,9 @@ exports.getAllPosts = (req, res) => {
         posts.push({
           postId: doc.id,
           body: doc.data().body,
-          userName: doc.data().userName,
+          full_name: doc.data().full_name,
           createdAt: doc.data().createdAt,
+          userId:doc.data().userId,
           commentCount: doc.data().commentCount,
           likeCount: doc.data().likeCount,
           userImage: doc.data().userImage
@@ -28,7 +29,8 @@ exports.newPost = (req, res) => {
   const newPost = {
     body: req.body.body,
     tags: req.body.tags,
-    userName: req.user.userName,
+    full_name: req.user.full_name,
+    userId:req.user.userId,
     userImage: req.user.imageUrl,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -36,15 +38,17 @@ exports.newPost = (req, res) => {
     commentCount: 0
   };
 
+  console.log("post data=",newPost)
+
   db.collection("posts")
     .add(newPost)
     .then(doc => {
-      const resPost = newPost;
-      resPost.postId = doc.id;
+      // let resPost = newPost;
+      // resPost.postId = doc.id;
       res.json({ massege: `document ${doc.id} created Sucessfully` });
     })
     .catch(err => {
-      res.status(500).json(resPost);
+      res.status(500).json(err);
       console.error(err);
     });
 };

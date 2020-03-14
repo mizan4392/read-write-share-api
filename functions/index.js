@@ -4,29 +4,29 @@ const cors = require("cors");
 
 app.use(cors());
 
-// const {
-//   getAllPosts,
-//   newPost,
-//   getPost,
-//   commentOnPost,
-//   likeOnPost,
-//   unlikeOnPost,
-//   deletePost
-// } = require("./routes/post");
+const {
+  getAllPosts,
+  newPost,
+  // getPost,
+  // commentOnPost,
+  // likeOnPost,
+  // unlikeOnPost,
+  // deletePost
+} = require("./routes/post");
 const {
   signup,
   login,
   // uplodImage,
-  addUserDetails
-  // getAuthenticatedUser,
+  // addUserDetails
+   getAuthenticatedUser,
   // getUserDetails,
   // markNotificationsRead
 } = require("./routes/user");
 const { FBAuth } = require("./util/FBAuth");
 const { db } = require("./util/admin");
 
-// app.get("/posts", getAllPosts);
-// app.post("/post", FBAuth, newPost);
+app.get("/posts", getAllPosts);
+ app.post("/post", FBAuth, newPost);
 // app.get("/post/:postId", getPost);
 // app.delete("/post/:postId", FBAuth, deletePost);
 // app.post("/post/:postId/comment", FBAuth, commentOnPost);
@@ -39,8 +39,8 @@ app.post("/signup", signup);
 app.post("/login", login);
 
 // app.post("/user/image", FBAuth, uplodImage);
-app.post("/user", FBAuth, addUserDetails);
-// app.get("/user", FBAuth, getAuthenticatedUser);
+// app.post("/user", FBAuth, addUserDetails);
+app.get("/user", FBAuth, getAuthenticatedUser);
 // app.get("/user/:userName", getUserDetails);
 // app.post("/notifications", FBAuth, markNotificationsRead);
 
@@ -68,6 +68,10 @@ exports.api = functions.https.onRequest(app);
 //       .catch(err => console.error(err));
 //   });
 // //delete unlike notification
+
+
+
+
 
 // exports.deleteNotificationOnUnLike = functions.firestore
 //   .document("likes/{id}")

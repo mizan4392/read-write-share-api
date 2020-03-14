@@ -37,3 +37,17 @@ Content-Type: application/json
     "email": "md.mizan1@gmail.com",
     "password":"123456"
 }
+
+###
+post https://us-central1-read-write-share-36d59.cloudfunctions.net/api/post
+Content-Type: application/json
+Authorization: Auth eyJhbGciOiJSUzI1NiIsImtpZCI6IjgyZTZiMWM5MjFmYTg2NzcwZjNkNTBjMTJjMTVkNmVhY2E4ZjBkMzUiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vcmVhZC13cml0ZS1zaGFyZS0zNmQ1OSIsImF1ZCI6InJlYWQtd3JpdGUtc2hhcmUtMzZkNTkiLCJhdXRoX3RpbWUiOjE1ODQyMDQ5NDAsInVzZXJfaWQiOiJRZ3VwbkxWbG1qUmo4a3QwQllCdWpMdWw5QzYzIiwic3ViIjoiUWd1cG5MVmxtalJqOGt0MEJZQnVqTHVsOUM2MyIsImlhdCI6MTU4NDIwNDk0MCwiZXhwIjoxNTg0MjA4NTQwLCJlbWFpbCI6Im1kLm1pemFuMUBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsibWQubWl6YW4xQGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.niGgEFY6M4-8XxtccXVyMGjanqPHZCdtnPP1P5-5VCCXhkWhoLQdAFBtEqDgd17SGzFdlNM9HmjRfT6mgRLWGXASj_43ESPPMlwMQCNkqzy8RT_8MPkW-DmSTwBUVtDHmquZI23L7qtZDJJ6SPaiFrzTwDB8tUKvqirVoM6j_HG2eB6-dPhMMwjLOvLkunObOlWEEJTQafdev-uk7LbHnuXo6c7ILRryR-kXEOixHyEie34_DytLHWhntAEby0pMX_nw18ISxmMYqXoLntf3dKPw5F6QqJLx_ZDROoYEZ_lbFY71-q226lqazdxNJ4iDNbWlsS7cTlQA2N-jdxKUfA
+
+
+{
+    "body": "md.mizan1@gmail.com",
+    "tags":"123456"
+}
+
+
+
