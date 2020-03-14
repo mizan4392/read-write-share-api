@@ -4,15 +4,15 @@ const cors = require("cors");
 
 app.use(cors());
 
-// const {
-//   getAllPosts,
-//   newPost,
-//   getPost,
-//   commentOnPost,
-//   likeOnPost,
-//   unlikeOnPost,
-//   deletePost
-// } = require("./routes/post");
+const {
+  // getAllPosts,
+  newPost,
+  // getPost,
+  // commentOnPost,
+  // likeOnPost,
+  // unlikeOnPost,
+  // deletePost
+} = require("./routes/post");
 const {
   signup,
   login,
@@ -26,7 +26,7 @@ const { FBAuth } = require("./util/FBAuth");
 const { db } = require("./util/admin");
 
 // app.get("/posts", getAllPosts);
-// app.post("/post", FBAuth, newPost);
+app.post("/post", FBAuth, newPost);
 // app.get("/post/:postId", getPost);
 // app.delete("/post/:postId", FBAuth, deletePost);
 // app.post("/post/:postId/comment", FBAuth, commentOnPost);

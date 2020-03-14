@@ -28,14 +28,21 @@ exports.newPost = (req, res) => {
   const newPost = {
     body: req.body.body,
     userName: req.user.userName,
+    tags: req.body.tags,
+    user_id: req.user.userId,
     userImage: req.user.imageUrl,
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
     likeCount: 0,
     commentCount: 0
   };
 
-  db.collection("posts")
-    .add(newPost)
+
+  db = db.collection("posts").doc()
+  newPost.post_id = db.id
+
+
+  db.add(newPost)
     .then(doc => {
       const resPost = newPost;
       resPost.postId = doc.id;
