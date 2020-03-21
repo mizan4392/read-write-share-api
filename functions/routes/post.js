@@ -1,12 +1,13 @@
 const { db } = require("../util/admin");
 
 exports.getAllPosts = (req, res) => {
+
   db.collection("posts")
     .orderBy("createdAt", "desc")
     .get()
     .then(data => {
       let posts = [];
-
+ 
       data.forEach(doc => {
         posts.push({
           postId: doc.id,
@@ -40,8 +41,7 @@ exports.newPost = (req, res) => {
 
   console.log("post data=",newPost)
 
-  db.collection("posts")
-    .add(newPost)
+  db.collection("posts").add(newPost)
     .then(doc => {
       // let resPost = newPost;
       // resPost.postId = doc.id;
@@ -212,23 +212,23 @@ exports.unlikeOnPost = (req, res) => {
       res.status(500).json({ error: err.code });
     });
 };
-//Delet a post
+//Delete a post
 exports.deletePost = (req, res) => {
+
   const document = db.doc(`/posts/${req.params.postId}`);
+  // console.log("post Id",req.params.postId)
   document
     .get()
     .then(doc => {
       if (!doc.exists) {
         return res.status(404).json({ error: "Post not found" });
       }
-      if (doc.data().userName !== req.user.userName) {
-        return res.status(403).json({ error: "Unauthorized" });
-      } else {
+       else {
         return document.delete();
       }
     })
     .then(() => {
-      res.json({ message: "Post deleted successfully" });
+      res.status(200).json({ message: "Post deleted successfully" });
     })
     .catch(err => {
       console.error(err);
