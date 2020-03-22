@@ -9,8 +9,8 @@ const {
   newPost,
   // getPost,
   // commentOnPost,
-  // likeOnPost,
-  // unlikeOnPost,
+  likeOnPost,
+  unlikeOnPost,
   deletePost
 } = require("./routes/post");
 const {
@@ -30,8 +30,8 @@ app.get("/posts",  getAllPosts);
 // app.get("/post/:postId", getPost);
 app.delete("/post/:postId", FBAuth, deletePost);
 // app.post("/post/:postId/comment", FBAuth, commentOnPost);
-// app.get("/post/:postId/like", FBAuth, likeOnPost);
-// app.get("/post/:postId/unlike", FBAuth, unlikeOnPost);
+app.get("/post/:postId/like", FBAuth, likeOnPost);
+app.get("/post/:postId/unlike", FBAuth, unlikeOnPost);
 
 //Signup route
 app.post("/signup", signup);

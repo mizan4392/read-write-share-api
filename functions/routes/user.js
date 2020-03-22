@@ -123,7 +123,6 @@ exports.getAuthenticatedUser = (req, res) => {
   let userData = {};
     // db.doc(`/users/${req.user.userId}`)
     
-    console.log("ueser id",req.user.userId)
   db.collection("users").doc(req.user.userId)
     .get()
     .then(doc => {

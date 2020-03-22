@@ -39,7 +39,7 @@ exports.newPost = (req, res) => {
     commentCount: 0
   };
 
-  console.log("post data=",newPost)
+
 
   db.collection("posts").add(newPost)
     .then(doc => {
@@ -109,15 +109,17 @@ exports.commentOnPost = (req, res) => {
       res.json(newComment);
     })
     .catch(err => {
-      console.log(err);
+    
       res.status(500).json({ error: "Something went wrong" });
     });
 };
 //like on post
 exports.likeOnPost = (req, res) => {
+
+  
   const likeDocument = db
     .collection("likes")
-    .where("userName", "==", req.user.userName)
+    .where("userId", "==", req.user.userId)
     .where("postId", "==", req.params.postId)
     .limit(1);
 
@@ -142,7 +144,7 @@ exports.likeOnPost = (req, res) => {
           .collection("likes")
           .add({
             postId: req.params.postId,
-            userName: req.user.userName
+            userId: req.user.userId
           })
           .then(() => {
             if (postData.likeCount >= 0) {
@@ -166,9 +168,11 @@ exports.likeOnPost = (req, res) => {
 };
 //unlike on post
 exports.unlikeOnPost = (req, res) => {
+
+  console.log()
   const likeDocument = db
     .collection("likes")
-    .where("userName", "==", req.user.userName)
+    .where("userId", "==", req.user.userId)
     .where("postId", "==", req.params.postId)
     .limit(1);
 
