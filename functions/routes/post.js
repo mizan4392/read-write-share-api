@@ -1,5 +1,32 @@
 const { db } = require("../util/admin");
 
+
+exports.getUserPosts = (req, res) => {
+
+  db.collection("posts").where("userId","==",req.user.userId)
+    .orderBy("createdAt", "desc")
+    .get()
+    .then(data => {
+      let posts = [];
+ 
+      data.forEach(doc => {
+        posts.push({
+          postId: doc.id,
+          body: doc.data().body,
+          full_name: doc.data().full_name,
+          createdAt: doc.data().createdAt,
+          userId:doc.data().userId,
+          commentCount: doc.data().commentCount,
+          likeCount: doc.data().likeCount,
+          userImage: doc.data().userImage
+        });
+      });
+
+      return res.json(posts);
+    })
+    .catch(err => console.error(err));
+};
+
 exports.getAllPosts = (req, res) => {
 
   db.collection("posts")
@@ -53,6 +80,36 @@ exports.newPost = (req, res) => {
     });
 };
 
+
+
+exports.getPostComment = (req, res) => {
+
+  db.collection("comments").where("postId","==",req.params.postId)
+    .orderBy("createdAt", "desc")
+    .get()
+    .then(data => {
+      let comments = [];
+ 
+      data.forEach(doc => {
+        comments.push({
+          commentId: doc.id,
+          body: doc.data().body,
+          full_name: doc.data().full_name,
+          createdAt: doc.data().createdAt,
+          userId:doc.data().userId,
+          userImage: doc.data().userImage,
+          postId:doc.data().postId
+        });
+      });
+
+      return res.json(comments);
+    })
+    .catch(err => console.error(err));
+};
+
+
+
+
 exports.getPost = (req, res) => {
   let postData = {};
   db.doc(`/posts/${req.params.postId}`)
@@ -86,33 +143,36 @@ exports.commentOnPost = (req, res) => {
   if (req.body.body.trim() === "")
     return res.status(400).json({ comment: "Must not be empty" });
 
-  const newComment = {
+  const comment = {
     body: req.body.body,
+    full_name: req.user.full_name,
+    userId:req.user.userId,
+    userImage: req.user.imageUrl,
+    postId:req.params.postId,
     createdAt: new Date().toISOString(),
-    postId: req.params.postId,
-    userName: req.user.userName,
-    userImage: req.user.imageUrl
+    updatedAt: new Date().toISOString(),
   };
 
   db.doc(`/posts/${req.params.postId}`)
     .get()
     .then(doc => {
       if (!doc.exists) {
-        return res.status(404).json({ error: "Scream not found" });
+        return res.status(404).json({ error: "Post not found" });
       }
       return doc.ref.update({ commentCount: doc.data().commentCount + 1 });
     })
     .then(() => {
-      return db.collection("comments").add(newComment);
+      return db.collection("comments").add(comment);
     })
     .then(() => {
-      res.json(newComment);
+      res.json(comment);
     })
     .catch(err => {
     
       res.status(500).json({ error: "Something went wrong" });
     });
 };
+
 //like on post
 exports.likeOnPost = (req, res) => {
 
