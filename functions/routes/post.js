@@ -84,6 +84,7 @@ exports.newPost = (req, res) => {
 
 exports.getPostComment = (req, res) => {
 
+
   db.collection("comments").where("postId","==",req.params.postId)
     .orderBy("createdAt", "desc")
     .get()
@@ -140,8 +141,12 @@ exports.getPost = (req, res) => {
 };
 
 exports.commentOnPost = (req, res) => {
-  if (req.body.body.trim() === "")
+
+
+  if (req.body.body.trim() === ""){
     return res.status(400).json({ comment: "Must not be empty" });
+  }
+    
 
   const comment = {
     body: req.body.body,

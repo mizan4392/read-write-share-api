@@ -33,7 +33,7 @@ app.get("/posts",  getAllPosts);
 // app.get("/post/:postId", getPost);
 app.delete("/post/:postId", FBAuth, deletePost);
 app.post("/post/:postId/comment", FBAuth, commentOnPost);
-app.post("/post/:postId/get-comment", getPostComment);
+app.get("/post/:postId/getComment", getPostComment);
 app.get("/post/:postId/like", FBAuth, likeOnPost);
 app.get("/post/:postId/unlike", FBAuth, unlikeOnPost);
 
