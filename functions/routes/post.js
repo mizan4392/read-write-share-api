@@ -85,6 +85,9 @@ exports.newPost = (req, res) => {
 exports.getPostComment = (req, res) => {
 
 
+  console.log("-----------",req.params.postId)
+
+
   db.collection("comments").where("postId","==",req.params.postId)
     .orderBy("createdAt", "desc")
     .get()
