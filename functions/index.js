@@ -1,7 +1,6 @@
 const functions = require("firebase-functions");
 const app = require("express")();
 const cors = require("cors");
-
 app.use(cors());
 
 const {
@@ -13,7 +12,8 @@ const {
   likeOnPost,
   unlikeOnPost,
   deletePost,
-  getUserPosts
+  getUserPosts,
+  sharePost
 } = require("./routes/post");
 const {
   signup,
@@ -29,13 +29,16 @@ const { db } = require("./util/admin");
 
 app.get("/user-posts", FBAuth ,getUserPosts);
 app.get("/posts",  getAllPosts);
- app.post("/post", FBAuth, newPost);
+app.post("/post", FBAuth, newPost);
+
 // app.get("/post/:postId", getPost);
 app.delete("/post/:postId", FBAuth, deletePost);
 app.post("/post/:postId/comment", FBAuth, commentOnPost);
 app.get("/post/:postId/getComment", getPostComment);
 app.get("/post/:postId/like", FBAuth, likeOnPost);
 app.get("/post/:postId/unlike", FBAuth, unlikeOnPost);
+
+app.post("/post/:postId/share", FBAuth, sharePost);
 
 //Signup route
 app.post("/signup", signup);
@@ -49,6 +52,8 @@ app.get("/user", FBAuth, getAuthenticatedUser);
 // app.post("/notifications", FBAuth, markNotificationsRead);
 
 exports.api = functions.https.onRequest(app);
+
+
 
 // // trriger notification on like
 // exports.createNotificationOnLike = functions.firestore

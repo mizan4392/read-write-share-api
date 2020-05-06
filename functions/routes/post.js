@@ -66,8 +66,6 @@ exports.newPost = (req, res) => {
     commentCount: 0
   };
 
-
-
   db.collection("posts").add(newPost)
     .then(doc => {
       // let resPost = newPost;
@@ -81,12 +79,40 @@ exports.newPost = (req, res) => {
 };
 
 
+exports.sharePost = (req, res) => {
+
+  const sharedPost = {
+    sharedes:req.body.sharedes,
+    post:req.body.post,
+    full_name: req.user.full_name,
+    sharedUserId:req.user.userId,
+    sharedUserImage: req.user.imageUrl,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    likeCount: 0,
+    commentCount: 0
+  };
+
+  console.log(sharedPost,"=========",req.body)
+
+
+  db.collection("sharedPosts").add(sharedPost)
+    .then(doc => {
+      // let resPost = newPost;
+      // resPost.postId = doc.id;
+      res.json({ massege: `document ${doc.id} created Sucessfully` });
+    })
+    .catch(err => {
+      res.status(500).json(err);
+      console.error(err);
+    });
+};
+
+
+
+
 
 exports.getPostComment = (req, res) => {
-
-
-  console.log("-----------",req.params.postId)
-
 
   db.collection("comments").where("postId","==",req.params.postId)
     .orderBy("createdAt", "desc")
@@ -145,11 +171,9 @@ exports.getPost = (req, res) => {
 
 exports.commentOnPost = (req, res) => {
 
-
   if (req.body.body.trim() === ""){
     return res.status(400).json({ comment: "Must not be empty" });
   }
-    
 
   const comment = {
     body: req.body.body,
@@ -176,25 +200,23 @@ exports.commentOnPost = (req, res) => {
       res.json(comment);
     })
     .catch(err => {
-    
       res.status(500).json({ error: "Something went wrong" });
     });
 };
 
+
+
+
 //like on post
 exports.likeOnPost = (req, res) => {
 
-  
   const likeDocument = db
     .collection("likes")
     .where("userId", "==", req.user.userId)
     .where("postId", "==", req.params.postId)
     .limit(1);
-
   const postDocument = db.doc(`/posts/${req.params.postId}`);
-
   let postData;
-
   postDocument
     .get()
     .then(doc => {
@@ -237,7 +259,6 @@ exports.likeOnPost = (req, res) => {
 //unlike on post
 exports.unlikeOnPost = (req, res) => {
 
-  console.log()
   const likeDocument = db
     .collection("likes")
     .where("userId", "==", req.user.userId)
@@ -284,11 +305,14 @@ exports.unlikeOnPost = (req, res) => {
       res.status(500).json({ error: err.code });
     });
 };
+
+
+
 //Delete a post
 exports.deletePost = (req, res) => {
 
   const document = db.doc(`/posts/${req.params.postId}`);
-  // console.log("post Id",req.params.postId)
+
   document
     .get()
     .then(doc => {
